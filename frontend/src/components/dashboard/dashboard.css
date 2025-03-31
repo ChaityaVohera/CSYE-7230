@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+.dashboard-main {
+  height: 100vh;
+  width: 100vw;
+  background-color: #f5f7f8;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+}
+
+.dashboard {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2%;
+}
+.dash-left {
+  -webkit-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  height: 100%;
+  width: 30%;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+}
+.dash-right {
+  -webkit-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  height: 100%;
+  overflow: scroll;
+  width: 70%;
+  background-color: white;
+  border-radius: 20px;
+  padding: 2%;
+}
+
+.dash-right form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-self: start;
+  gap: 1vh;
+}
+
+.interests-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2%;
+}
+
+.interests-top {
+  margin-bottom: 1vh;
+}
+
+.feedcentre {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #f5f7f8;
+}
+
+.feedmain {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2%;
+}
+
+.feedContents {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.card {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  font-size: large;
+  -webkit-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+}
