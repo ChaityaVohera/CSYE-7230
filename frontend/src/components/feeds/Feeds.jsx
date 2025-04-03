@@ -1,11 +1,32 @@
 import React, { useState } from "react";
-import { Button, Input, Textarea, useToast } from "@chakra-ui/react";
+import { Button, Input, Textarea, Select, useToast } from "@chakra-ui/react";
 import axios from "axios";
 
+const categories = [
+  "Front-end",
+  "HTML/CSS",
+  "Angular",
+  "Backend",
+  "Devops",
+  "SQL/NoSQL",
+  "FullStack",
+  "React",
+  "Node.js",
+  "Web-developer",
+  "Java",
+  "Python",
+  "ComputerScience",
+  "UI/UX",
+  "Figma",
+  "Express",
+  "JavaSvript",
+];
+
 const CreatePost = () => {
-  const [title, setTitle] = useState("");  // State for post title
-  const [text, setText] = useState("");    // State for post text
-  const [error, setError] = useState("");  // State for error message
+  const [title, setTitle] = useState("");    // State for post title
+  const [text, setText] = useState("");      // State for post text
+  const [category, setCategory] = useState(""); // State for category (optional)
+  const [error, setError] = useState("");    // State for error message
   const toast = useToast();  // To display success/error messages
 
   // Handle the form submission to create a post
@@ -36,8 +57,9 @@ const CreatePost = () => {
 
       // Prepare the data to be sent to the backend
       const postData = {
-        title: title,
-        text: text,
+        title,
+        text,
+        domain: category || null, // Send category if selected, else null
         userId: userID,
       };
 
@@ -54,6 +76,7 @@ const CreatePost = () => {
         });
         setTitle("");  // Reset title field
         setText("");   // Reset text field
+        setCategory(""); // Reset category
       }
     } catch (error) {
       setError("An error occurred while creating the post.");
@@ -81,6 +104,18 @@ const CreatePost = () => {
         onChange={(e) => setText(e.target.value)}
         mb={4}
       />
+      <Select
+        placeholder="(Optional) Select Category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        mb={4}
+      >
+        {categories.map((cat, index) => (
+          <option key={index} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </Select>
       <Button onClick={handleCreatePost} colorScheme="teal">
         Create Post
       </Button>
@@ -91,3 +126,4 @@ const CreatePost = () => {
 };
 
 export default CreatePost;
+
