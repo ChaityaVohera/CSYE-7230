@@ -54,6 +54,7 @@
 
 - Chaitya Vohera
 - Foram Trivedi
+- Jishnu Jemunigani
 - Kedar Apte
 - Nilvi Shah
 - Malav Bhatt
