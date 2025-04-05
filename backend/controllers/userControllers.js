@@ -2,15 +2,9 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 
-/**
- * Search for users by name or email.
- * Excludes the currently logged-in user from the results.
- * @route GET /api/user?search=
- * @access Public
- * @param {Object} req - Express request object with `search` query param.
- * @param {Object} res - Express response object.
- * @returns {Array} - List of matching user documents.
- */
+//@description     Get or Search all users
+//@route           GET /api/user?search=
+//@access          Public
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
@@ -25,20 +19,15 @@ const allUsers = asyncHandler(async (req, res) => {
   res.send(users);
 });
 
-/**
- * Register a new user.
- * @route POST /api/user/
- * @access Public
- * @param {Object} req - Express request object containing `name`, `email`, `password`, and optionally `pic`.
- * @param {Object} res - Express response object.
- * @returns {Object} - Registered user info with JWT token.
- */
+//@description     Register new user
+//@route           POST /api/user/
+//@access          Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
 
   if (!name || !email || !password) {
     res.status(400);
-    throw new Error("Please Enter all the Fields");
+    throw new Error("Please Enter all the Feilds");
   }
 
   const userExists = await User.findOne({ email });
@@ -70,16 +59,11 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-/**
- * Authenticate a user with email and password.
- * @route POST /api/users/login
- * @access Public
- * @param {Object} req - Express request object containing `email` and `password`.
- * @param {Object} res - Express response object.
- * @returns {Object} - Authenticated user info with JWT token.
- */
+//@description     Auth the user
+//@route           POST /api/users/login
+//@access          Public
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password, connected } = req.body;
+  const { email, password ,connected} = req.body;
 
   const user = await User.findOne({ email });
 
@@ -98,5 +82,68 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid Email or Password");
   }
 });
+//     NAVEEN
 
-module.exports = { allUsers, registerUser, authUser };
+// const createUser = async (req, res) => {
+//   const {
+//     fullName,
+//     email,
+//     password,
+//     userName,
+//     bio,
+//     gender,
+//     interest,
+//     interested,
+//     connected,
+//   } = req.body;
+
+//   try {
+//     const newUser = await User.create({
+//       fullName,
+//       email,
+//       password,
+//       userName,
+//       bio,
+//       gender,
+//       interest,
+//       interested,
+//       connected,
+//     });
+
+//     res.status(201).json({ message: 'User created successfully', user: newUser });
+//   } catch (error) {
+//     res.status(400).json({ error: 'User cannot be created.' });
+//   }
+// };
+
+
+const getUserDomains = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Fetch the user and select only the 'interest' field
+    const user = await User.findById(userId).select("interest");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Send response with the 'interest' array, even if it's empty
+    res.status(200).json({
+      success: true,
+      interest: user.interest || [], // This should be 'interest', not 'domains'
+    });
+  } catch (error) {
+    console.error("User Domains Fetch Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch user domains",
+    });
+  }
+};
+
+
+module.exports = { allUsers, registerUser, authUser, getUserDomains};
+
