@@ -3,9 +3,14 @@ const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 const Chat = require("../models/chatModel");
 
-//@description     Get all Messages
-//@route           GET /api/Message/:chatId
-//@access          Protected
+/**
+ * Get all messages for a specific chat.
+ * @route GET /api/Message/:chatId
+ * @access Protected
+ * @param {Object} req - Express request object containing `chatId` as a URL parameter.
+ * @param {Object} res - Express response object.
+ * @returns {Array} - Array of message documents for the chat.
+ */
 const allMessages = asyncHandler(async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
@@ -18,9 +23,14 @@ const allMessages = asyncHandler(async (req, res) => {
   }
 });
 
-//@description     Create New Message
-//@route           POST /api/Message/
-//@access          Protected
+/**
+ * Send a new message in a chat.
+ * @route POST /api/Message/
+ * @access Protected
+ * @param {Object} req - Express request object containing `content` and `chatId` in the body.
+ * @param {Object} res - Express response object.
+ * @returns {Object} - The created message document, with populated sender and chat info.
+ */
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
 
