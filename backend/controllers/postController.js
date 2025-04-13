@@ -11,7 +11,7 @@ const Post = require("../models/postModel");
  */
 const createPost = async (req, res) => {
   try {
-    const { title, text, userId } = req.body;
+    const { title, text, userId , domain} = req.body;
 
     // Validate data
     if (!title || !text || !userId) {
@@ -23,6 +23,7 @@ const createPost = async (req, res) => {
       title,
       text,
       userId,
+      domain,
     });
 
     // Save the post to the database
