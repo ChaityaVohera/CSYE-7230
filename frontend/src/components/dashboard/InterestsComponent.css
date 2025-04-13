@@ -1,0 +1,83 @@
+/* Full screen layout */
+
+.interests-wrapper {
+
+    display: flex;
+  
+    justify-content: center;
+  
+    align-items: center;
+  
+    min-height: 100vh;
+  
+    background-color: #f7fafc;
+  
+    padding: 24px;
+  
+    box-sizing: border-box;
+  
+  }
+   
+  /* Main container */
+  
+  .interests-box {
+  
+    width: 100%;
+  
+    max-width: 900px;
+  
+    background-color: #ffffff;
+  
+    padding: 40px 32px;
+  
+    border-radius: 16px;
+  
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  
+    box-sizing: border-box;
+  
+  }
+   
+  /* Section spacing */
+  
+  .interests-section {
+  
+    margin-bottom: 32px;
+  
+  }
+   
+  .section-title {
+  
+    font-size: 18px;
+  
+    font-weight: 600;
+  
+    margin-bottom: 16px;
+  
+    color: #2d3748;
+  
+  }
+   
+  /* Interest buttons */
+  
+  .interest-button {
+  
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  }
+   
+  .interest-button:hover {
+  
+    transform: translateY(-2px);
+  
+    box-shadow: 0 6px 12px rgba(66, 153, 225, 0.2);
+  
+  }
+   
+  .interest-selected {
+  
+    cursor: default;
+  
+  }
+  
+   

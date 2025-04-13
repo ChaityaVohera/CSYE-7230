@@ -145,5 +145,46 @@ const getUserDomains = async (req, res) => {
 };
 
 
-module.exports = { allUsers, registerUser, authUser, getUserDomains};
+const updateUserInterests = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const { interest } = req.body;
+
+    // Validate input
+    if (!interest || !Array.isArray(interest)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid input: 'interest' must be a non-empty array",
+      });
+    }
+
+    // Update user's interest field
+    const user = await User.findByIdAndUpdate(
+      userID,
+      { interest },
+      { new: true }
+    ).select("interest");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Interests updated successfully",
+      interest: user.interest,
+    });
+  } catch (error) {
+    console.error("Update Interests Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update user interests",
+    });
+  }
+};
+
+module.exports = { allUsers, registerUser, authUser, getUserDomains, updateUserInterests};
 
