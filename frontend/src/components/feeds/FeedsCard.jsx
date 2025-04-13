@@ -10,25 +10,23 @@ import {
   VStack
 } from "@chakra-ui/react";
 import axios from "axios";
-
+import "./FeedsCard.css"; // 🔁 Import the CSS file
+ 
 function FeedsCard() {
   const [error, setError] = useState("");
   const [posts, setPosts] = useState([]);
   const [interestedDomains, setInterestedDomains] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useToast();
-  const [selectedDomain, setSelectedDomain] = useState(null); // For tracking the selected domain
-
-  // Check if user is logged in
+  const [selectedDomain, setSelectedDomain] = useState(null);
+ 
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   const currentUserId = userInfo?._id;
-
-  // Function to fetch all posts
+ 
   const fetchPosts = async () => {
     try {
       setLoading(true);
-
-      // Fetch posts
+ 
       const postsResponse = await axios.get("http://localhost:5000/posts/getPosts");
       const receivedData = postsResponse.data;
       if (Array.isArray(receivedData)) {
@@ -38,18 +36,15 @@ function FeedsCard() {
       } else {
         throw new Error("Received unexpected data format");
       }
-
-      // Fetch user interests if logged in
+ 
       if (currentUserId) {
         const userResponse = await axios.get(`http://localhost:5000/user/getDomains/${currentUserId}`);
-        console.log(userResponse);
         if (userResponse.data.success) {
           setInterestedDomains(userResponse.data.interest || []);
         } else {
           setInterestedDomains([]);
         }
       }
-
     } catch (error) {
       setError(error.message);
       toast({
@@ -63,106 +58,93 @@ function FeedsCard() {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
-    fetchPosts(); // Initial fetch
+    fetchPosts();
   }, [toast, currentUserId]);
-
-  // Handle clicking on a domain
+ 
   const handleDomainClick = (domain) => {
-    setSelectedDomain(domain);  // Set the selected domain
-    // Filter posts based on selected domain
+    setSelectedDomain(domain);
     const filteredPosts = posts.filter((post) => post.domain === domain);
-    setPosts(filteredPosts.length > 0 ? filteredPosts : []);  // If no posts found, set empty array
+    setPosts(filteredPosts.length > 0 ? filteredPosts : []);
   };
-
-  // Reset to all posts when "General" is clicked
+ 
   const handleGeneralClick = () => {
     setSelectedDomain(null);
-    fetchPosts(); // Fetch all posts when "General" is clicked
+    fetchPosts();
   };
-
+ 
   if (loading) {
     return (
-      <Flex justify="center" mt={10}>
-        <Spinner size="xl" thickness="3px" emptyColor="gray.200" color="blue.500" />
-      </Flex>
+<Flex justify="center" mt={10}>
+<Spinner size="xl" thickness="3px" emptyColor="gray.200" color="blue.500" />
+</Flex>
     );
   }
-
+ 
   if (error) {
     return (
-      <Box textAlign="center" py={10}>
-        <Text fontSize="xl" color="red.500">{error}</Text>
-      </Box>
+<Box textAlign="center" py={10}>
+<Text fontSize="xl" color="red.500">{error}</Text>
+</Box>
     );
   }
-
+ 
   return (
-    <Flex width="100%" maxWidth="1000px" mx="auto" px={4} py={6}>
-      {/* Left Sidebar for Interests and General Option */}
+<div className="feeds-wrapper">
       {currentUserId && (
-        <Box width="250px" p={4} bg="gray.50" borderRadius="lg" mr={6} boxShadow="sm">
-          <Heading size="md" mb={4}>Your Interests</Heading>
-          
-          {/* Interested Domains Section */}
+<Box className="sticky-sidebar">
+<Heading size="md" mb={4}>Your Interests</Heading>
           {interestedDomains.length > 0 ? (
-            <VStack align="start" spacing={3}>
+<VStack align="start" spacing={3}>
               {interestedDomains.map((domain, index) => (
-                <Text
+<Text
                   key={index}
                   fontSize="sm"
                   fontWeight="medium"
                   color={domain === selectedDomain ? "blue.800" : "blue.600"}
                   cursor="pointer"
-                  onClick={() => handleDomainClick(domain)}  // Add click handler
+                  onClick={() => handleDomainClick(domain)}
                   _hover={{ color: "blue.800" }}
-                >
+>
                   {domain}
-                </Text>
+</Text>
               ))}
-            </VStack>
+</VStack>
           ) : (
-            <Text fontSize="sm" color="gray.500">No interests added</Text>
+<Text fontSize="sm" color="gray.500">No interests added</Text>
           )}
-
-          {/* General Option Section */}
-          <Box mt={6}>
-            <Heading size="md" mb={4}>General</Heading>
-            <Text
+<Box mt={6}>
+<Heading size="md" mb={4}>General</Heading>
+<Text
               fontSize="sm"
               color={selectedDomain === null ? "blue.800" : "blue.600"}
               cursor="pointer"
-              onClick={handleGeneralClick}  // Handle General click
+              onClick={handleGeneralClick}
               _hover={{ color: "blue.800" }}
-            >
+>
               General Option
-            </Text>
-          </Box>
-        </Box>
+</Text>
+</Box>
+</Box>
       )}
-
-      {/* Main Content: Posts */}
-      <Box flex="1">
-        {loading ? (
-          <Box textAlign="center" py={10}>
-            <Text>Loading...</Text>
-          </Box>
-        ) : posts.length === 0 ? (
-          <Box textAlign="center" py={10} borderRadius="lg" bg="gray.50" p={6}>
-            <Heading size="md" mb={2} color="gray.600">
+ 
+      <Box className="scrollable-content">
+        {posts.length === 0 ? (
+<Box textAlign="center" py={10} borderRadius="lg" bg="gray.50" p={6}>
+<Heading size="md" mb={2} color="gray.600">
               No posts available
-            </Heading>
-            <Text color="gray.500">
+</Heading>
+<Text color="gray.500">
               Be the first to create a post!
-            </Text>
+</Text>
             {!currentUserId && (
-              <Button mt={4} colorScheme="blue" onClick={() => window.location.href = "/login"}>Login to Post</Button>
+<Button mt={4} colorScheme="blue" onClick={() => window.location.href = "/login"}>Login to Post</Button>
             )}
-          </Box>
+</Box>
         ) : (
           posts.map(post => (
-            <Box 
+<Box
               key={post._id}
               borderWidth="1px"
               borderRadius="lg"
@@ -170,36 +152,32 @@ function FeedsCard() {
               mb={5}
               boxShadow="sm"
               bg="white"
-            >
-              <Box mb={4}>
-                <Heading as="h2" size="lg" mb={2}>{post.title}</Heading>
-                
-                {/* Display domain field if available */}
+>
+<Box mb={4}>
+<Heading as="h2" size="lg" mb={2}>{post.title}</Heading>
                 {post.domain && (
-                  <Text fontSize="sm" fontWeight="bold" color="blue.600" mb={2}>
+<Text fontSize="sm" fontWeight="bold" color="blue.600" mb={2}>
                     Domain: {post.domain}
-                  </Text>
+</Text>
                 )}
-
-                <Text fontSize="md" mb={4}>{post.text}</Text>
-              </Box>
-
-              <Flex justify="space-between" align="center">
-                <Text fontSize="sm" color="gray.500">
+<Text fontSize="md" mb={4}>{post.text}</Text>
+</Box>
+<Flex justify="space-between" align="center">
+<Text fontSize="sm" color="gray.500">
                   Posted on {new Date(post.createdAt).toLocaleDateString()}
-                </Text>
+</Text>
                 {currentUserId && (
-                  <Text fontSize="sm" color="gray.500">
+<Text fontSize="sm" color="gray.500">
                     {post.userId === currentUserId ? "Your post" : "User's post"}
-                  </Text>
+</Text>
                 )}
-              </Flex>
-            </Box>
+</Flex>
+</Box>
           ))
         )}
-      </Box>
-    </Flex>
+</Box>
+</div>
   );
 }
-
+ 
 export default FeedsCard;
