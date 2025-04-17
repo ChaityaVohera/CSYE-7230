@@ -1,103 +1,63 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
-
-.dashboard-main {
+.dashboard-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7fafc;
   height: 100vh;
   width: 100vw;
-  background-color: #f5f7f8;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 2%;
+  padding: 32px;
+  box-sizing: border-box;
 }
-
-.dashboard {
-  height: 100%;
+ 
+/* Inner dashboard content container */
+.dashboard-content {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 2%;
+  max-width: 700px;
+  background-color: #ffffff;
+  padding: 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
-.dash-left {
-  -webkit-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  height: 100%;
-  width: 30%;
-  background-color: white;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2%;
-}
-.dash-right {
-  -webkit-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  height: 100%;
-  overflow: scroll;
-  width: 70%;
-  background-color: white;
-  border-radius: 20px;
-  padding: 2%;
-}
-
-.dash-right form {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-self: start;
-  gap: 1vh;
-}
-
+ 
+/* Interest layout – untouched */
 .interests-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 2%;
+  padding: 24px;
 }
-
-.interests-top {
-  margin-bottom: 1vh;
+ 
+.interests-top,
+.interests-bottom {
+  margin-bottom: 32px;
 }
-
-.feedcentre {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #f5f7f8;
+ 
+/* Button group styles */
+.button-group {
+  display: inline-block;
+  margin: 6px;
 }
-
-.feedmain {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 2%;
+ 
+.interest-btn {
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
 }
-
-.feedContents {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
+ 
+.interest-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-.card {
-  font-family: "Poppins", sans-serif;
-  font-weight: bold;
-  font-size: large;
-  -webkit-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
-  box-shadow: -1px 2px 20px -6px rgba(0, 0, 0, 0.75);
+ 
+.interest-selected-btn {
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+ 
+.save-button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
