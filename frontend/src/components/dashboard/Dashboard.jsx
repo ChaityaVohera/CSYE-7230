@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { Input } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import "../dashboard/dashboard.css";
-// import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
-import { Flex, Spacer, Center, Box } from '@chakra-ui/react'
-
+import { Box, Heading } from "@chakra-ui/react";
 import InterestsComponent from "./InterestsComponent";
 import { Link } from "react-router-dom";
-
-// import ProtectedRoute from "../protectedroute/Protectedroute";
+ 
 const Dashboard = () => {
   const [error, setError] = useState("");
   const [fullName, setFullName] = useState("");
@@ -21,18 +18,12 @@ const Dashboard = () => {
   const [gender, setGender] = useState("");
   const userID = sessionStorage.getItem("userID");
   const toast = useToast();
-
+ 
   const handleEditProfile = async (e) => {
     e.preventDefault();
-
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-
-      const { data } = await axios.put(
+      const config = { headers: { "Content-type": "application/json" } };
+      await axios.put(
         "http://localhost:5000/user/edit/" + userID,
         {
           fullName: fullName,
@@ -42,139 +33,119 @@ const Dashboard = () => {
         },
         config
       );
-
       toast({
         title: "Edit Successful",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: error.response.data.message,
+        title: "Error Occurred!",
+        description: error.response?.data?.message || "Something went wrong",
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
     }
   };
-
+ 
   const [showForm, setShowForm] = useState(false);
   const [showInterest, setShowInterest] = useState(false);
-
+ 
   const toggleForm = () => {
     setShowForm(!showForm);
     setShowInterest(false);
   };
+ 
   const toggleInterest = () => {
     setShowInterest(!showInterest);
     setShowForm(false);
   };
-
+ 
   return (
-    <div className="dashboard-main">
-      <Flex className="dashboard ">
-        <Box w='30vh' className="dash-left ">
-          <div>
-            <Button h="1.75rem" size="sm" onClick={toggleForm}>
-              Edit profile
-            </Button>{" "}
-          </div>
-          <div>
-            <Button h="1.75rem" size="sm" onClick={toggleInterest}>
-              Interests
-            </Button>{" "}
-          </div>
-          <div>
-            <Link to="/post">
-              <Button h="1.75rem" size="sm" variant="solid" colorScheme="green">
-                Post
-              </Button>
-            </Link>
-          </div>
-          <div>
-            <Link to="/chats">
-              <Button h="1.75rem" size="sm" variant="solid" colorScheme="green">
-                Chat
-              </Button>
-            </Link>
-          </div>
-          <div>
-            <Link to="/connections">
-              <Button h="1.75rem" size="sm" variant="solid" colorScheme="green">
-                Connections
-              </Button>
-            </Link>
-          </div>
-          <div>
-            <Link to="/feed">
-              <Button h="1.75rem" size="sm" variant="solid" colorScheme="green">
-                Feed
-              </Button>
-            </Link>
-          </div>
-        </Box>
-        <Box  className="dash-right " >
+<div className="dashboard-wrapper">
+<Box className="dashboard-content">
+<Heading size="md" mb={4}>
+          Dashboard
+</Heading>
+ 
+        <Button h="2.2rem" w="100%" mb={3} onClick={toggleForm}>
+          Edit Profile
+</Button>
+ 
+        <Button h="2.2rem" w="100%" mb={3} onClick={toggleInterest}>
+          Interests
+</Button>
+ 
+        <Link to="/post">
+<Button h="2.2rem" w="100%" mb={3} colorScheme="teal">
+            Post
+</Button>
+</Link>
+ 
+        <Link to="/chats">
+<Button h="2.2rem" w="100%" mb={3} colorScheme="teal">
+            Chat
+</Button>
+</Link>
+ 
+        <Link to="/feed">
+<Button h="2.2rem" w="100%" mb={3} colorScheme="teal">
+            Feed
+</Button>
+</Link>
+ 
+        <Box mt={6} w="100%">
           {showForm && (
-            <form onSubmit={handleEditProfile}>
-              <div className="mb-3">
-                <FormControl >
-                  <FormLabel className="formlable">Name</FormLabel>
-                  <Input
+<form onSubmit={handleEditProfile}>
+<VStack spacing={4} align="stretch">
+<FormControl>
+<FormLabel>Name</FormLabel>
+<Input
                     type="text"
                     placeholder="Enter Name"
                     onChange={(e) => setFullName(e.target.value)}
                   />
-                </FormControl>
-                <FormControl controlId="formGridUsername">
-                  <FormLabel>Username</FormLabel>
-                  <Input
+</FormControl>
+ 
+                <FormControl>
+<FormLabel>Username</FormLabel>
+<Input
                     type="text"
-                    placeholder="username"
+                    placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
                   />
-                </FormControl>
-              </div>
-              <FormControl className="mb-3" controlId="formGridBio">
-                <FormLabel>Course & Batch</FormLabel>
-                <Input
-                  placeholder="Bio"
-                  onChange={(e) => setBio(e.target.value)}
-                />
-            </FormControl>
-              <FormControl controlId="formGridGender">
-                <FormLabel>Gender</FormLabel>
-                <Input onChange={(e) => setGender(e.target.value)} />
-              </FormControl>
-              <Button h="1.75rem" size="sm" type="submit">
-                Submit
-              </Button>
-              {error && <p style={{ color: "red" }}>{error}</p>}
-            </form>
+</FormControl>
+ 
+                <FormControl>
+<FormLabel>Course & Batch</FormLabel>
+<Input
+                    placeholder="Bio"
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+</FormControl>
+ 
+                <FormControl>
+<FormLabel>Gender</FormLabel>
+<Input onChange={(e) => setGender(e.target.value)} />
+</FormControl>
+ 
+                <Button type="submit" colorScheme="teal">
+                  Submit
+</Button>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+</VStack>
+</form>
           )}
-          {showInterest && (
-            // <form>
-            //   {/* Your form elements */}
-            //   <input type="text" placeholder="Name" />
-            //   {/* Add more form fields */}
-            //   <button type="submit">Submit</button>
-            //   {error && <p style={{ color: "red" }}>{error}</p>}
-            // </form>
-
-            <InterestsComponent />
-          )}
-        </Box>
-      </Flex>
-    </div>
-    // <div className="">
-    //   <h1>
-    //     hi
-    //   </h1>
-    // </div>
+ 
+          {showInterest && <InterestsComponent />}
+</Box>
+</Box>
+</div>
   );
 };
-
+ 
 export default Dashboard;
